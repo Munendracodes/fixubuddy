@@ -1,0 +1,4 @@
+# app/models/__init__.py
+from .medicines import Medicine
+from .drugs import Drug
+from .compositions import compositions
