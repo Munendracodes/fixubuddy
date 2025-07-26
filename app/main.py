@@ -12,7 +12,7 @@ from fastapi import FastAPI
 from fastapi import FastAPI
 
 app = FastAPI(
-    title="🔧 FixuBuddy API 🤝",
+    title="🔧 FixuBuddy API🤝",
     description=(
         "📱 A mobile-first platform to connect customers with trusted service providers "
         "like 🧰 electricians, ❄️ AC technicians, 🚽 plumbers, and more – across your town! 🏡\n\n"
