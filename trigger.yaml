@@ -1,0 +1,11 @@
+createTime: '2025-07-26T09:38:59.046896654Z'
+filename: cloudbuild.yaml
+github:
+  name: fixubuddy
+  owner: Munendracodes
+  push:
+    branch: ^main$
+id: 925d79b6-9acc-4b9d-b24d-59c8da106905
+name: auto-deploy-fixubuddy
+resourceName: projects/analog-delight-467107-p5/locations/global/triggers/925d79b6-9acc-4b9d-b24d-59c8da106905
+serviceAccount: 978338023784@cloudbuild.gserviceaccount.com
