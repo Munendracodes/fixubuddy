@@ -3,10 +3,9 @@ version: "3.9"
 services:
   web:
     build: .
-    container_name: pharmacy_api
+    container_name: fixubuddy-prod
     ports:
-      - "8000:8000"
-    volumes:
-      - .:/app
+      - "8080:8080"  # Match Cloud Run or production default
     environment:
       - PYTHONUNBUFFERED=1
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8080
