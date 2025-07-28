@@ -5,6 +5,7 @@ pydantic
 python-dotenv
 pymysql
 alembic
-opencage
 python-multipart
+httpx
+
 
