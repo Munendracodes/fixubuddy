@@ -8,6 +8,7 @@ from app.routes.technician import router as technician_router
 from app.models.users import Base
 from fastapi.staticfiles import StaticFiles
 import os
+import uvicorn
 
 from fastapi import FastAPI
 
@@ -32,3 +33,7 @@ app.include_router(category_router)
 app.include_router(sub_category_router)
 app.include_router(technician_router)
 app.include_router(address_router)
+
+
+if __name__ == "__main__":
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8080)
