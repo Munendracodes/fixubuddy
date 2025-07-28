@@ -32,8 +32,10 @@ app.include_router(users_router, include_in_schema=False)
 app.include_router(category_router)
 app.include_router(sub_category_router)
 app.include_router(technician_router)
-app.include_router(address_router)
+app.include_router(address_router, include_in_schema=False)
+
 
 
 if __name__ == "__main__":
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8080)
+    port = int(os.environ.get("PORT", 8080))  # default to 8080 if not set
+    uvicorn.run("app.main:app", host="0.0.0.0", port=port)
