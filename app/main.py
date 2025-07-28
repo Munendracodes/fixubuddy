@@ -24,6 +24,11 @@ app = FastAPI(
 
 app.mount("/static", StaticFiles(directory=os.path.join("app", "static")), name="static")
 
+
+@app.get("/")
+def read_root():
+    return {"message": "FixuBuddy is running!"}
+
 # Create all tables from models
 Base.metadata.create_all(bind=engine)
 app.include_router(users_router, include_in_schema=False)
