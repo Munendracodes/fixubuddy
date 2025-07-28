@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from app.database import engine
 from app.routes.users import router as users_router
-from app.routes.address import router as address_router
 from app.routes.categories import router as category_router
 from app.routes.sub_categories import router as sub_category_router
 from app.routes.technician import router as technician_router
@@ -32,10 +31,10 @@ app.include_router(users_router, include_in_schema=False)
 app.include_router(category_router)
 app.include_router(sub_category_router)
 app.include_router(technician_router)
-app.include_router(address_router, include_in_schema=False)
 
 
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8080))  # default to 8080 if not set
-    uvicorn.run("app.main:app", host="0.0.0.0", port=port)
+# if __name__ == "__main__":
+#     port = int(os.environ.get("PORT", 8080))
+#     uvicorn.run("app.main:app", host="0.0.0.0", port=port)
+
