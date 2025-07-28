@@ -5,7 +5,7 @@ from app.routes.categories import router as category_router
 from app.routes.sub_categories import router as sub_category_router
 from app.routes.technician import router as technician_router
 from app.models.users import Base
-from fastapi.staticfiles import StaticFiles
+# from fastapi.staticfiles import StaticFiles
 import os
 import uvicorn
 
@@ -22,7 +22,7 @@ app = FastAPI(
     openapi_url="/openapi.json",   # 📄 OpenAPI schema
 )
 
-app.mount("/static", StaticFiles(directory=os.path.join("app", "static")), name="static")
+# app.mount("/static", StaticFiles(directory=os.path.join("app", "static")), name="static")
 
 
 @app.get("/")

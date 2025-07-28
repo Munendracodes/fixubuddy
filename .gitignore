@@ -14,10 +14,5 @@ venv/
 
 .venv/
 
-# Ignore all files in icons folder
-app/static/icons/*
-
-# But keep the folder itself
-!app/static/icons/.gitkeep
 
 
