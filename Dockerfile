@@ -15,4 +15,4 @@ ENV HOST=0.0.0.0
 ENV PYTHONUNBUFFERED=1
 
 # Proper CMD with var expansion and good signal handling
-CMD ["sh", "-c", "uvicorn app.main:app --host ${HOST} --port ${PORT}"]
+CMD ["uvicorn", "app.main:app", "--host=0.0.0.0", "--port=8080"]
