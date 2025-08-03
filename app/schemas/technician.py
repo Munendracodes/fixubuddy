@@ -36,3 +36,12 @@ class TechnicianResponse(TechnicianBase):
 
     class Config:
         orm_mode = True
+        
+class TechnicianResponseinSubCategories(BaseModel):
+    id: int
+    name: str
+    mobile: str
+    work: str
+    description: Optional[str]
+    rating: Optional[float]
+    image_url: Optional[str]

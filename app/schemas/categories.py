@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import List, Optional
+from app.schemas.sub_categories import SubCategoryResponse
 
 class CategoryBase(BaseModel):
     name: str
@@ -10,7 +11,9 @@ class CategoryCreate(CategoryBase):
 
 class CategoryResponse(CategoryBase):
     id: int
-    sub_category_ids: List[int] = []
 
     class Config:
         orm_mode = True
+
+class CategorySubCategoryResponse(CategoryResponse):
+    sub_categories: List[SubCategoryResponse]

@@ -1,59 +1,58 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query, Body
 from sqlalchemy.orm import Session
 from app.models.sub_categories import SubCategory
 from app.models.categories import Category
-from app.models.technician_subcategories import TechnicianSubCategory
-from app.schemas.sub_categories import SubCategoryCreate, SubCategoryResponse
+from app.schemas.sub_categories import SubCategoryCreate, SubCategoryResponse, SubCategoryTechnicianResponse
 from app.database import get_db
+from typing import List
 
 router = APIRouter(prefix="/sub_categories", tags=["Sub Categories"])
 
-@router.post("/", response_model=SubCategoryResponse)
-def create_sub_category(sub_cat: SubCategoryCreate, db: Session = Depends(get_db)):
-    category = db.query(Category).filter(Category.name == sub_cat.category_name).first()
+
+@router.post("/", response_model=List[SubCategoryResponse])
+def create_sub_categories(
+    category_name: str = Query(..., description="Name of the category"),
+    sub_cat_list: List[SubCategoryCreate] = Body(...),
+    db: Session = Depends(get_db)
+):
+    category = db.query(Category).filter(Category.name == category_name).first()
     if not category:
-        raise HTTPException(status_code=404, detail="Category not found")
-    new_sub = SubCategory(
-        name=sub_cat.name,
-        image_url=sub_cat.image_url,
-        category_id=category.id
-    )
-    db.add(new_sub)
-    db.commit()
-    db.refresh(new_sub)
-    return SubCategoryResponse(
-        id=new_sub.id,
-        name=new_sub.name,
-        image_url=new_sub.image_url,
-        category_id=new_sub.category_id,
-        technician_ids=[]
-    )
+        raise HTTPException(status_code=404, detail=f"Category '{category_name}' not found")
 
-@router.get("/", response_model=list[SubCategoryResponse])
-def get_all_sub_categories(db: Session = Depends(get_db)):
-    sub_categories = db.query(SubCategory).all()
-    result = []
-    for sub in sub_categories:
-        tech_ids = [link.technician_id for link in sub.technicians]
-        result.append(SubCategoryResponse(
-            id=sub.id,
-            name=sub.name,
-            image_url=sub.image_url,
-            category_id=sub.category_id,
-            technician_ids=tech_ids
-        ))
-    return result
+    created_subcategories = []
+    for sub_cat in sub_cat_list:
+        db_sub = SubCategory(**sub_cat.dict(), category_id=category.id)
+        db.add(db_sub)
+        db.commit()
+        db.refresh(db_sub)
+        created_subcategories.append(db_sub)
 
-@router.get("/{id}", response_model=SubCategoryResponse)
+    return created_subcategories
+
+
+@router.get("/{id}", response_model=SubCategoryTechnicianResponse)
 def get_sub_category_by_id(id: int, db: Session = Depends(get_db)):
     sub = db.query(SubCategory).filter(SubCategory.id == id).first()
     if not sub:
         raise HTTPException(status_code=404, detail="SubCategory not found")
-    tech_ids = [link.technician_id for link in sub.technicians]
-    return SubCategoryResponse(
-        id=sub.id,
-        name=sub.name,
-        image_url=sub.image_url,
-        category_id=sub.category_id,
-        technician_ids=tech_ids
-    )
+
+    # Manually collect technician info from TechnicianSubCategory
+    technicians = []
+    for tech_sub in sub.technicians:
+        tech = tech_sub.technician  # assuming there's a `technician` relationship in TechnicianSubCategory
+        technicians.append({
+            "id": tech.id,
+            "name": tech.name,
+            "mobile": tech.mobile,
+            "work": tech.work,
+            "description": tech.description,
+            "rating": tech.rating,
+            "image_url": tech.image_url,
+        })
+
+    return {
+        "id": sub.id,
+        "name": sub.name,
+        "technicians": technicians
+    }
+
