@@ -2,7 +2,7 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 from alembic import context
 from app.database import Base
-from app.models import medicines
+from app.models import categories
 
 
 # Alembic config
@@ -13,7 +13,7 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 # 🔥 This is the key line for autogenerate to work
-target_metadata = medicines.Base.metadata
+target_metadata = categories.Base.metadata
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode."""

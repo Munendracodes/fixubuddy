@@ -4,7 +4,7 @@ from app.routes.users import router as users_router
 from app.routes.categories import router as category_router
 from app.routes.sub_categories import router as sub_category_router
 from app.routes.technician import router as technician_router
-from app.models.users import Base
+from app.models.categories import Base
 # from fastapi.staticfiles import StaticFiles
 import os
 import uvicorn
